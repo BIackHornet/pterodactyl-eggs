@@ -1,0 +1,59 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2022-01-18T11:19:01-06:00",
+    "name": "Zandronum 3.1",
+    "author": "unknown@unknown.com",
+    "description": null,
+    "features": null,
+    "images": [
+        "blackhornet27\/zandronum:latest"
+    ],
+    "file_denylist": [],
+    "startup": ".\/zandronum-server +exec server.cfg -port {{SERVER_PORT}} -useip 0.0.0.0 -iwad {{IWAD}} -host {{MAX_PLAYERS}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"UDP Initialized.\",\r\n    \"userInteraction\": []\r\n}",
+        "logs": "{}",
+        "stop": "Quit"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\napt install bzip2 unzip\r\ncd \/mnt\/server\r\n\r\n# Download Zandronum 3.1 and set permissions\r\nwget https:\/\/zandronum.com\/downloads\/zandronum3.1-linux-x86_64.tar.bz2 -O zandronum.tar.bz2\r\ntar -xvf zandronum.tar.bz2\r\nchmod +rwx zandronum-server\r\nchmod +rwx zandronum\r\n\r\n# Checks if lists exists and creates them if missing\r\nif [ ! -f \"adminlist.txt\" ]; then\r\n  touch adminlist.txt\r\nfi\r\n\r\nif [ ! -f \"banlist.txt\" ]; then\r\n  touch banlist.txt\r\nfi\r\n\r\nif [ ! -f \"whitelist.txt\" ]; then\r\n  touch whitelist.txt\r\nfi\r\n\r\n# Create server config if doesnt exist\r\nif [ ! -f \"server.cfg\" ]; then\r\necho \"\/\/ CONFIGURATION FILE FOR SERVERS\r\n\r\n\/\/ Set the hostname.\r\nsv_hostname \"Pterodactyl Zandronum\"\r\n\r\n\r\n\/\/ Set the wad url - if you set this to the exact location of the zip file\r\n\/\/ of the wad you're using then getwad will find it.\r\n\/\/sv_website \"https:\/\/pterodactyl.io\/\"\r\n\r\n\r\n\/\/ Set the banfile\r\nsv_banfile \"banlist.txt\"\r\n\r\n\/\/ Set the logfile.\r\n\/\/logfile \"\/zandronium\/log.log\"\r\n\r\n\/\/ Force Skulltag to use the dmflags we want; don't set any defaults.\r\nsv_defaultdmflags 0\r\n\r\n\/\/ Reset the compat flags.\r\ncompatflags 0\r\n\r\n\/\/ Make sure that we don't display launcher queries in the window.\r\n\/\/ (Otherwise, logfiles will get HUGE!)\r\nsv_showlauncherqueries false\r\n\r\n\/\/ Set the skill level. 0 = I'm too young to die, 4 = Nightmare\r\nskill 2\r\n\r\n\/\/*** Set the game mode. ***\r\n\/\/To set the various gamemodes:\r\n\/\/Deathmatch (current setting)\r\n\/\/deathmatch 1\r\n\/\/Duel\r\n\/\/duel 1\r\nCo-op\r\n\/\/deathmatch 0\r\n\/\/Teamgame\r\n\/\/teamgame 1\r\n\/\/Team Deathmatch\r\n\/\/teamplay 1\r\n\/\/Capture the Flag\r\n\/\/ctf 1\r\n\/\/Last Man Standing\r\n\/\/lastmanstanding 1\r\n\/\/Team Last Man Standing\r\n\/\/teamlms 1\r\n\/\/Terminator\r\n\/\/terminator 1\r\n\/\/One Flag CTF\r\n\/\/oneflagctf 1\r\n\/\/Skulltag\r\n\/\/skulltag 1\r\n\/\/Invasion\r\n\/\/invasion 1\r\n\/\/Survival\r\n\/\/survival 1\r\n\/\/Possession\r\n\/\/possession 1\r\n\/\/Team Possession\r\n\/\/teampossession 1\r\n\r\n\/\/Buckshot Mode\r\n\/\/buckshot 1\r\n\r\n\/\/Instagib Mode\r\n\/\/instagib 1\r\n\r\n\/\/Call Vote (Change to true if you want to disable it)\r\nsv_nocallvote False\r\n\r\n\/\/Friendly Fire (0.00 means friendly fire disabled, 1.00\r\n\/\/means full team damage. 0.50 is half damage etc)\r\nteamdamage 0.00\r\n\r\n\/\/ Set the limits.\r\n\/\/fraglimit 25\r\n\r\n\/\/ WINLIMIT is used for the max number of wins in a duel game\r\n\/\/ before the map changes. \r\n\r\n\/\/ POINTLIMIT is used for the max number of points a team scores\r\n\/\/ before the map changes (in modes like CTF or Domination)\r\n\r\n\/\/ FRAGLIMIT is used for the max number of frags in either Team\r\n\/\/ Deathmatch, regular Deathmatch, or the max frags for 1 Duel.\r\n\r\n\/\/TIMELIMIT is used to end the match based on the time.\r\n\r\n\/\/ Set the maximum number of players who can participate in the game.\r\nsv_maxplayers 8\r\n\r\n\/\/ Set the maximum number of clients who can connect to the server.\r\nsv_maxclients 10\r\n\r\n\/\/Fast Monsters\r\nsv_fastmonsters True\r\n\r\n\/\/Respawn Invulnerability (Set to True to Disable)\r\nsv_norespawninvul False\r\n\r\n\/\/Free Look (Set to True to Disable)\r\nsv_nofreelook False\r\n\r\n\/\/Jump (Set to True to Disable)\r\nsv_nojump True\r\n\r\n\/\/Makes this server a public one (Shows up on the master server.)\r\n\/\/Set this to False to make it private\r\nsv_updatemaster True\r\n\r\n\/\/Change this setting to True if you plan on connecting to the server\r\n\/\/Over a local area network.\r\nsv_broadcast True\r\n\r\n\/\/ Set the message of the day.\r\nsv_motd \"Welcome to Zandronum in a Docker Container!\"\r\n\r\n\/\/ Set the RCON password.\r\nsv_rconpassword \"adminDocker\"\r\n\r\n\/\/ Disallow connect\/join passwords.\r\nsv_password \"\"\r\n\r\n\r\n\/\/ Set some dmflags. Should be self-explanatory.\r\nsv_weaponstay false\r\nsv_nomonsters false\r\nsv_itemrespawn false\r\nsv_noexit false\r\nsv_doubleammo true\r\n\r\n\/\/ Spawn drops on the floor.\r\ncompat_notossdrops false\" >> server.cfg\r\nfi\r\n\r\n# Create folder structure for Zandronum .ini\r\nmkdir -p \/mnt\/server\/~\/.config\/zandronum\r\n\r\n# Create wad folder and import freeware\r\ncd \/mnt\/server\/~\/.config\/zandronum\r\nwget https:\/\/github.com\/freedoom\/freedoom\/releases\/download\/v0.12.1\/freedoom-0.12.1.zip -O freedoom.zip\r\nwget https:\/\/github.com\/freedoom\/freedoom\/releases\/download\/v0.12.1\/freedm-0.12.1.zip -O freedm.zip \r\nunzip -j -o freedoom.zip \"*.wad\"\r\nunzip -j -o freedm.zip \"*.wad\"\r\nrm *.zip",
+            "container": "ghcr.io\/pterodactyl\/installers:debian",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Max Players",
+            "description": "Maximum players that can connect.",
+            "env_variable": "MAX_PLAYERS",
+            "default_value": "16",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|max:128"
+        },
+        {
+            "name": "IWAD",
+            "description": "Game file to load up.",
+            "env_variable": "IWAD",
+            "default_value": "freedm.wad",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:32"
+        },
+        {
+            "name": "PWADS",
+            "description": "",
+            "env_variable": "PWADS",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:1024"
+        }
+    ]
+}
