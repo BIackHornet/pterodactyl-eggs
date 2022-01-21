@@ -4,18 +4,18 @@
         "version": "PTDL_v1",
         "update_url": null
     },
-    "exported_at": "2022-01-19T02:59:07-06:00",
+    "exported_at": "2022-01-21T10:33:28-06:00",
     "name": "Zandronum 3.1",
     "author": "sgrinter@goliathus.org",
-    "description": "This Egg will download and install Zandronum 3.1 and the following freeware wads. \r\n\r\nfreedm.wad\r\nfreedoom1.wad\r\nfreedoom2.wad\r\n\r\nThe vanilla setup is deathmatch mode. Feel free to change server settings to your liking using the provided variables or edit the server.cfg and ~\/.config\/zandronum\/zandronum.ini. Reinstalling the server will not override your settings, you will need to delete the files manually to lose any data. Place more wads in ~\/.config\/zandronum\/ to play different games.",
+    "description": "This Egg will download and install Zandronum 3.1 and the following freeware wads. \r\n\r\nfreedm.wad\r\nfreedoom1.wad\r\nfreedoom2.wad\r\n\r\nThe vanilla setup is deathmatch mode. Feel free to change server settings to your liking using the provided variables or edit the server.cfg and ~\/.config\/zandronum\/zandronum.ini. Reinstalling the server will not override your settings, you will need to delete the files manually to lose any data. Place more wads in ~\/.config\/zandronum\/ to play different games or use mods.",
     "features": null,
     "images": [
         "blackhornet27\/zandronum:latest"
     ],
     "file_denylist": [],
-    "startup": ".\/zandronum-server +exec server.cfg -port {{SERVER_PORT}} -useip 0.0.0.0 -iwad {{IWAD}} -host",
+    "startup": ".\/zandronum-server +exec server.cfg -port {{SERVER_PORT}} -useip 0.0.0.0 -iwad {{IWAD}} -file {{MOD_FILES}}",
     "config": {
-        "files": "{\r\n    \"server.cfg\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"sv_maxplayers\": \"sv_maxplayers {{env.MAX_PLAYERS}}\",\r\n            \"sv_hostname\": \"sv_hostname \\\"{{env.SERVER_NAME}}\\\"\",\r\n            \"sv_password\": \"sv_password \\\"{{env.SERVER_PASSWORD}}\\\"\",\r\n            \"sv_motd\": \"sv_motd \\\"{{env.SERVER_MESSAGE}}\\\"\",\r\n            \"sv_rconpassword\": \"sv_rconpassword \\\"{{env.RCON_PASSWORD}}\\\"\"\r\n        }\r\n    }\r\n}",
+        "files": "{\r\n    \"server.cfg\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"sv_maxplayers\": \"sv_maxplayers {{env.MAX_PLAYERS}}\",\r\n            \"sv_hostname\": \"sv_hostname \\\"{{env.SERVER_NAME}}\\\"\",\r\n            \"skill\": \"skill {{env.SKILL_LEVEL}}\",\r\n            \"sv_motd\": \"sv_motd \\\"{{env.SERVER_MESSAGE}}\\\"\",\r\n            \"sv_rconpassword\": \"sv_rconpassword \\\"{{env.RCON_PASSWORD}}\\\"\"\r\n        }\r\n    }\r\n}",
         "startup": "{\r\n    \"done\": \"UDP Initialized.\",\r\n    \"userInteraction\": []\r\n}",
         "logs": "{}",
         "stop": "Quit"
@@ -47,15 +47,6 @@
             "rules": "required|string|max:32"
         },
         {
-            "name": "PWADS",
-            "description": "",
-            "env_variable": "PWADS",
-            "default_value": "",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "nullable|string|max:1024"
-        },
-        {
             "name": "Server Name",
             "description": "Sets the server's name in Doomseeker.",
             "env_variable": "SERVER_NAME",
@@ -63,15 +54,6 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:128"
-        },
-        {
-            "name": "Server Password",
-            "description": "Servers Password, leave blank for no password.",
-            "env_variable": "SERVER_PASSWORD",
-            "default_value": "",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "nullable|string|max:20"
         },
         {
             "name": "RCON Password",
@@ -90,6 +72,24 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:128"
+        },
+        {
+            "name": "Difficulty",
+            "description": "Set the skill level:\r\n\r\n0 = I'm too young to die\r\n1 = Hey, not too rough\r\n2 = Hurt me plenty\r\n3 = Ultra-Violence\r\n4 = Nightmare!",
+            "env_variable": "SKILL_LEVEL",
+            "default_value": "2",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|max:4"
+        },
+        {
+            "name": "PWAD and PK3 Files",
+            "description": "Load additional WAD or PK3 files to the server startup. Space separated values for multiple files. \r\n\r\nPlace WAD or PK3 files into the ~\/.config\/zandronum directory to load them without file paths.",
+            "env_variable": "MOD_FILES",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:1024"
         }
     ]
 }
